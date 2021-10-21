@@ -1,0 +1,39 @@
+{
+  "intents": {
+    "/Начать игру": {
+      "matchers": [
+        {
+          "type": "phrase",
+          "rule": "Начать игру"
+        },
+        {
+          "type": "phrase",
+          "rule": "Играть"
+        },
+        {
+          "type": "phrase",
+          "rule": "Давай"
+        }
+      ],
+      "variables": {}
+    },
+    "/Помощь": {
+      "matchers": [
+        {
+          "type": "phrase",
+          "rule": "помощь"
+        },
+        {
+          "type": "phrase",
+          "rule": "справка"
+        },
+        {
+          "type": "phrase",
+          "rule": "помоги"
+        }
+      ],
+      "variables": {}
+    }
+  },
+  "entities": {}
+}
