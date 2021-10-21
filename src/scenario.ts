@@ -14,7 +14,6 @@ import {
 import { SaluteMemoryStorage } from '@salutejs/storage-adapter-memory'
 import { helpHandler, noMatchHandler, runAppHandler, startGameHandler, userAnswerHandler } from './handlers'
 import model from './intents.json'
-// require('dotenv').config()
 
 const storage = new SaluteMemoryStorage()
 const intents = createIntents(model.intents)

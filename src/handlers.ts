@@ -8,7 +8,7 @@ let attempt = 0
 let oldQuestions: string[] = []
 let currentEvent: YearEvent | null
 
-export const runAppHandler: SaluteHandler = ({ req, res }, dispatch) => {
+export const runAppHandler: SaluteHandler = ({ req, res }) => {
     const keyset = req.i18n(dictionary)
     const helloText = keyset('Привет')
     res.setPronounceText(helloText)
@@ -46,6 +46,7 @@ export const startGameHandler: SaluteHandler = ({ req, res }) => {
     res.appendBubble(keyset('Первый вопрос', {
         question: currentEvent?.question
     }))
+    res.setAutoListening(true)
 }
 
 export const userAnswerHandler: SaluteHandler = async ({ req, res }) => {
@@ -87,6 +88,7 @@ export const userAnswerHandler: SaluteHandler = async ({ req, res }) => {
     res.setPronounceText(responseText)
     res.appendBubble(responseText)
     res.appendSuggestions(['Помощь', 'Выйти'])
+    res.setAutoListening(true)
 }
 
 export const helpHandler: SaluteHandler = ({ req, res }) => {
