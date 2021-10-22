@@ -68,7 +68,7 @@ export const userAnswerHandler: SaluteHandler = async ({ req, res }) => {
         }
         if (attempt === 3){
             const secondAnswerYearDifference = getYearDifference(currentEvent?.year as number, year)
-            const accurateAnswer = secondAnswerYearDifference > firstAnswerYearDifference ? keyset('Первый точнее') : keyset('Второй точнее')
+            let accurateAnswer =secondAnswerYearDifference === firstAnswerYearDifference ? '' : secondAnswerYearDifference > firstAnswerYearDifference ? keyset('Первый точнее') : keyset('Второй точнее')
             responseText = `${responseText} ${accurateAnswer} ${keyset('Последний ответ')}`
         }
         if (attempt === 4){
