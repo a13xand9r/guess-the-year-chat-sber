@@ -28,7 +28,7 @@ export async function getPercentage(question: string, userYear: number, realYear
     const userYearDifference = Math.abs(realYear - userYear)
     const otherUsersYearDifference = usersYear.map(item => Math.abs(item - realYear))
     const badOtherUsersYearDifference = otherUsersYearDifference.filter(item => item > userYearDifference)
-    return badOtherUsersYearDifference.length / otherUsersYearDifference.length * 100
+    return Math.round(badOtherUsersYearDifference.length / otherUsersYearDifference.length * 100)
 }
 
 export function getYear(human_normalized_text: string) {
