@@ -12,7 +12,7 @@ import {
     SaluteRequest
 } from '@salutejs/scenario'
 import { SaluteMemoryStorage } from '@salutejs/storage-adapter-memory'
-import { helpHandler, noMatchHandler, runAppHandler, startGameHandler, userAnswerHandler } from './handlers'
+import { continueHandler, helpHandler, noMatchHandler, runAppHandler, startGameHandler, userAnswerHandler } from './handlers'
 import model from './intents.json'
 
 const storage = new SaluteMemoryStorage()
@@ -31,6 +31,10 @@ const userScenario = createUserScenario({
     Help: {
         match: intent('/Помощь', {confidence: 0.2}),
         handle: helpHandler
+    },
+    Continue: {
+        match: intent('/Продолжить', {confidence: 0.2}),
+        handle: continueHandler
     },
 })
 

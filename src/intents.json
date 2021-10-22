@@ -13,6 +13,10 @@
         {
           "type": "phrase",
           "rule": "Давай"
+        },
+        {
+          "type": "phrase",
+          "rule": "нечнем"
         }
       ],
       "variables": {}
@@ -30,6 +34,23 @@
         {
           "type": "phrase",
           "rule": "помоги"
+        }
+      ],
+      "variables": {}
+    },
+    "/Продолжить": {
+      "matchers": [
+        {
+          "type": "phrase",
+          "rule": "продолжить"
+        },
+        {
+          "type": "phrase",
+          "rule": "продолжить игру"
+        },
+        {
+          "type": "phrase",
+          "rule": "продолжим"
         }
       ],
       "variables": {}

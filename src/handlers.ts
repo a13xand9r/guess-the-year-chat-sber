@@ -96,4 +96,14 @@ export const helpHandler: SaluteHandler = ({ req, res }) => {
     const responseText = keyset('Помощь')
     res.setPronounceText(responseText)
     res.appendBubble(responseText)
+    res.appendSuggestions(['Продолжить'])
+}
+
+export const continueHandler: SaluteHandler = ({ req, res }) => {
+    const keyset = req.i18n(dictionary)
+    const responseText = keyset('Вопрос', {
+        question: currentEvent?.question
+    })
+    res.setPronounceText(responseText)
+    res.appendBubble(responseText)
 }
