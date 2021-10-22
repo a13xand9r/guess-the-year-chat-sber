@@ -21,7 +21,7 @@ const { intent } = createMatchers<SaluteRequest, typeof intents>()
 
 const userScenario = createUserScenario({
     StartGame: {
-        match: intent('/Начать игру', {confidence: 0.2}),
+        match: (req) => intent('/Начать игру', {confidence: 0.2})(req) && !currentEvent,
         handle: startGameHandler
     },
     UserAnswer: {
@@ -37,7 +37,7 @@ const userScenario = createUserScenario({
         handle: continueHandler
     },
     No: {
-        match: (req) => intent('/Нет', {confidence: 0.2})(req) && !!currentEvent,
+        match: (req) => intent('/Нет', {confidence: 0.2})(req) && !currentEvent,
         handle: ({res}) => {
             res.setPronounceText('Ну и ладно')
         }
