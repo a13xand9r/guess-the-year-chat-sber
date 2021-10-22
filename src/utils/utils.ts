@@ -55,3 +55,7 @@ export function compareYear(realYear: number, userYear: number) {
     return Difference.good
 }
 
+export function getYearDifference(realYear: number, userYear: number) {
+    return Math.abs(realYear - userYear)
+}
+
