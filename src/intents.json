@@ -1,5 +1,18 @@
 {
   "intents": {
+    "/Нет": {
+      "matchers": [
+        {
+          "type": "phrase",
+          "rule": "нет"
+        },
+        {
+          "type": "phrase",
+          "rule": "не надо"
+        }
+      ],
+      "variables": {}
+    },
     "/Начать игру": {
       "matchers": [
         {
@@ -17,6 +30,10 @@
         {
           "type": "phrase",
           "rule": "нечнем"
+        },
+        {
+          "type": "phrase",
+          "rule": "да"
         }
       ],
       "variables": {}

@@ -36,6 +36,13 @@ const userScenario = createUserScenario({
         match: intent('/Продолжить', {confidence: 0.2}),
         handle: continueHandler
     },
+    No: {
+        match: intent('/Нет', {confidence: 0.2}),
+        handle: ({res}) => {
+            res.setPronounceText('Тогда до встречи!')
+            res.finish()
+        }
+    },
 })
 
 const systemScenario = createSystemScenario({
