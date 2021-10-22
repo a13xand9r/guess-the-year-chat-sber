@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@salutejs/recognizer-smartapp-brain": "^0.14.0",
-    "@salutejs/scenario": "^0.18.2",
-    "@salutejs/storage-adapter-memory": "^0.18.2",
+    "@salutejs/scenario": "^0.14.0",
+    "@salutejs/storage-adapter-memory": "^0.14.0",
     "mongodb": "^4.1.3",
     "next": "11.1.2",
     "react": "17.0.2",
