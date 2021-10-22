@@ -18,11 +18,13 @@ export const runAppHandler: SaluteHandler = ({ req, res }) => {
 }
 
 export const noMatchHandler: SaluteHandler = ({ req, res }) => {
-    console.log('human_normalized_text', req.message.human_normalized_text)
-    console.log('normalized_text', req.message.normalized_text)
-    console.log('asr_normalized_message', req.message.asr_normalized_message)
     const keyset = req.i18n(dictionary)
-    const errorText = keyset('404')
+    let errorText = ''
+    if (currentEvent) {
+        errorText = keyset('404')
+    } else {
+        errorText = keyset('Помощь')
+    }
     res.setPronounceText(errorText)
     res.appendBubble(errorText)
 }
