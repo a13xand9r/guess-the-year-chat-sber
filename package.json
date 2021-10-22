@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@salutejs/recognizer-smartapp-brain": "^0.18.2",
+    "@salutejs/recognizer-smartapp-brain": "^0.14.0",
     "@salutejs/scenario": "^0.18.2",
     "@salutejs/storage-adapter-memory": "^0.18.2",
     "mongodb": "^4.1.3",
