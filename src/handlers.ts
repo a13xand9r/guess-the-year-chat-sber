@@ -6,7 +6,7 @@ import { start } from './dataBase'
 
 let attempt = 0
 let oldQuestions: string[] = []
-let currentEvent: YearEvent | null
+export let currentEvent: YearEvent | null
 let firstAnswerYearDifference: number
 
 export const runAppHandler: SaluteHandler = ({ req, res }) => {
