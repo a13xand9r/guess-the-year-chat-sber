@@ -57,22 +57,21 @@ export const userAnswerHandler: SaluteHandler = async ({ req, res }) => {
     let responseText: string
     let percentage: number = 50
 
-    if (attempt < 3) {
+    const compareResult = compareYear(currentEvent?.year as number, year)
+    if (compareResult !== Difference.good) {
+        responseText = keyset(compareResult)
         attempt += 1
-        const compareResult = compareYear(currentEvent?.year as number, year)
-        if (compareResult !== Difference.good){
-            responseText = keyset(compareResult)
-            if (attempt === 2) responseText = responseText + ' ' + keyset('Еще ответ')
-            if (attempt === 3) responseText = responseText + ' ' + keyset('Последний ответ')
-        } else {
-            responseText = keyset(compareResult, {
-                description: currentEvent?.description
-            })
+        if (attempt === 2) responseText = responseText + ' ' + keyset('Еще ответ')
+        if (attempt === 3) responseText = responseText + ' ' + keyset('Последний ответ')
+        if (attempt === 4){
+            responseText = currentEvent?.description as string
             percentage = await getPercentage(currentEvent?.question as string, year, currentEvent?.year as number)
             startNewGame()
         }
     } else {
-        responseText = currentEvent?.description as string
+        responseText = keyset(compareResult, {
+            description: currentEvent?.description
+        })
         percentage = await getPercentage(currentEvent?.question as string, year, currentEvent?.year as number)
         startNewGame()
     }
