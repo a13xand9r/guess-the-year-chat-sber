@@ -67,13 +67,26 @@ export const userAnswerHandler: SaluteHandler = async ({ req, res }) => {
             responseText = currentEvent?.description as string
             percentage = await getPercentage(currentEvent?.question as string, year, currentEvent?.year as number)
             startNewGame()
+            responseText = responseText +
+            '\n' +
+            keyset('Точность ответа', {
+                percentage
+            }) +
+            '\n\n' +
+            keyset('Следующий вопрос', {
+                question: currentEvent?.question
+            })
         }
     } else {
         responseText = keyset(compareResult, {
             description: currentEvent?.description
         })
-        percentage = await getPercentage(currentEvent?.question as string, year, currentEvent?.year as number)
         startNewGame()
+        responseText = responseText +
+            '\n\n' +
+            keyset('Следующий вопрос', {
+                question: currentEvent?.question
+            })
     }
     if (attempt === 1) {
         responseText = responseText +
