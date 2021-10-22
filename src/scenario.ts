@@ -40,7 +40,6 @@ const userScenario = createUserScenario({
         match: intent('/Нет', {confidence: 0.2}),
         handle: ({res}) => {
             res.setPronounceText('Тогда до встречи!')
-            res.finish()
         }
     },
 })
@@ -51,7 +50,7 @@ const systemScenario = createSystemScenario({
 })
 
 const scenarioWalker = createScenarioWalker({
-    recognizer: new SmartAppBrainRecognizer('c2ced421-d430-41d1-8504-cc48399465ad'),
+    recognizer: new SmartAppBrainRecognizer('c4ac45a8-bc54-4779-bf57-4eb69a387b5b'),
     intents,
     systemScenario,
     userScenario
