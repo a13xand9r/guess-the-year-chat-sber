@@ -17,7 +17,7 @@ import model from './intents.json'
 
 const storage = new SaluteMemoryStorage()
 const intents = createIntents(model.intents)
-const { match, intent } = createMatchers<SaluteRequest, typeof intents>()
+const { intent } = createMatchers<SaluteRequest, typeof intents>()
 
 const userScenario = createUserScenario({
     StartGame: {
@@ -51,8 +51,8 @@ const systemScenario = createSystemScenario({
 })
 
 const scenarioWalker = createScenarioWalker({
-    intents,
     recognizer: new SmartAppBrainRecognizer('c2ced421-d430-41d1-8504-cc48399465ad'),
+    intents,
     systemScenario,
     userScenario
 })
