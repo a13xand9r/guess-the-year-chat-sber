@@ -88,17 +88,6 @@ export const userAnswerHandler: SaluteHandler = async ({ req, res }) => {
                 question: currentEvent?.question
             })
     }
-    if (attempt === 1) {
-        responseText = responseText +
-            '\n' +
-            keyset('Точность ответа', {
-                percentage
-            }) +
-            '\n\n' +
-            keyset('Следующий вопрос', {
-                question: currentEvent?.question
-            })
-    }
     res.setPronounceText(responseText)
     res.appendBubble(responseText)
     res.appendSuggestions(['Помощь', 'Выйти'])
