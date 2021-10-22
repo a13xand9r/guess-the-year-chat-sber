@@ -78,6 +78,7 @@ export const userAnswerHandler: SaluteHandler = async ({ req, res }) => {
             })
         }
     } else {
+        console.log(currentEvent?.description)
         responseText = keyset(compareResult, {
             description: currentEvent?.description
         })
