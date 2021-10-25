@@ -47,7 +47,7 @@ const startNewGame = (session: any) => {
 }
 
 export const startGameHandler: SaluteHandler = ({ req, res, session }) => {
-    const {currentEvent} = session as {currentEvent: YearEvent}
+    // const {currentEvent} = session as {currentEvent: YearEvent}
 
     const keyset = req.i18n(dictionary)
     startNewGame(session)
