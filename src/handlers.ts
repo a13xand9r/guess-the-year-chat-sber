@@ -15,6 +15,7 @@ export const runAppHandler: SaluteHandler = ({ req, res }) => {
     res.setPronounceText(helloText)
     res.appendBubble(helloText)
     res.appendSuggestions(['Играть', 'Помощь'])
+    console.log('oldQuestions', oldQuestions)
 
     attempt = 0
     oldQuestions = []
