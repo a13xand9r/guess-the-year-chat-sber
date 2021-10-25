@@ -39,7 +39,7 @@ export const noMatchHandler: SaluteHandler = ({ req, res, session }) => {
 
 
 const startNewGame = (session: any) => {
-    const event = getUniqEvent(session.oldQuestions)
+    const event = getUniqEvent(oldQuestions)
 
     currentEvent = event
     attempt = 1
