@@ -128,11 +128,16 @@ export const helpHandler: SaluteHandler = ({ req, res }) => {
     res.appendSuggestions(['Продолжить'])
 }
 
-export const continueHandler: SaluteHandler = ({ req, res }) => {
+export const continueHandler: SaluteHandler = ({ req, res, history }, dispatch) => {
     const keyset = req.i18n(dictionary)
-    const responseText = keyset('Вопрос', {
-        question: currentEvent?.question
-    })
-    res.setPronounceText(responseText)
-    res.appendBubble(responseText)
+    console.log('history', history)
+    if (currentEvent) {
+        const responseText = keyset('Вопрос', {
+            question: currentEvent?.question
+        })
+        res.setPronounceText(responseText)
+        res.appendBubble(responseText)
+    } else {
+        dispatch && dispatch(['startNewGame'])
+    }
 }
