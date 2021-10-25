@@ -15,13 +15,19 @@ export const runAppHandler: SaluteHandler = ({ req, res }) => {
     res.setPronounceText(helloText)
     res.appendBubble(helloText)
     res.appendSuggestions(['Играть', 'Помощь'])
+
+    attempt = 0
+    oldQuestions = []
+    currentEvent = null
+
     start()
+    // console.log(oldQuestions)
 }
 
-export const noMatchHandler: SaluteHandler = ({ req, res }) => {
+export const noMatchHandler: SaluteHandler = ({ req, res, session }) => {
     const keyset = req.i18n(dictionary)
     let errorText = ''
-    if (currentEvent) {
+    if (session.currentEvent) {
         errorText = keyset('404')
     } else {
         errorText = keyset('Помощь')
@@ -31,17 +37,19 @@ export const noMatchHandler: SaluteHandler = ({ req, res }) => {
 }
 
 
-const startNewGame = () => {
-    const event = getUniqEvent(oldQuestions)
+const startNewGame = (session: any) => {
+    const event = getUniqEvent(session.oldQuestions)
 
     currentEvent = event
     attempt = 1
     oldQuestions.push(event.question)
 }
 
-export const startGameHandler: SaluteHandler = ({ req, res }) => {
+export const startGameHandler: SaluteHandler = ({ req, res, session }) => {
+    const {currentEvent} = session as {currentEvent: YearEvent}
+
     const keyset = req.i18n(dictionary)
-    startNewGame()
+    startNewGame(session)
 
     res.setPronounceText(keyset('Первый вопрос', {
         question: currentEvent?.question
@@ -52,7 +60,13 @@ export const startGameHandler: SaluteHandler = ({ req, res }) => {
     res.setAutoListening(true)
 }
 
-export const userAnswerHandler: SaluteHandler = async ({ req, res }) => {
+export const userAnswerHandler: SaluteHandler = async ({ req, res, session }) => {
+    // const {currentEvent} = session as {
+    //     currentEvent: YearEvent
+    //     attempt: number
+    //     firstAnswerYearDifference: number
+    // }
+
     const keyset = req.i18n(dictionary)
     const year = getYear(req.message.human_normalized_text)
     let responseText: string
@@ -76,7 +90,7 @@ export const userAnswerHandler: SaluteHandler = async ({ req, res }) => {
         if (attempt === 4){
             responseText = currentEvent?.description as string
             percentage = await getPercentage(currentEvent?.question as string, year, currentEvent?.year as number)
-            startNewGame()
+            startNewGame(session)
             responseText = responseText +
             '\n' +
             keyset('Точность ответа', {
@@ -92,7 +106,7 @@ export const userAnswerHandler: SaluteHandler = async ({ req, res }) => {
         responseText = keyset(compareResult, {
             description: currentEvent?.description
         })
-        startNewGame()
+        startNewGame(session)
         responseText = responseText +
             '\n\n' +
             keyset('Следующий вопрос', {
