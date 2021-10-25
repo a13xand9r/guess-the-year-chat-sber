@@ -48,7 +48,7 @@ const startNewGame = (session: any) => {
 
 export const startGameHandler: SaluteHandler = ({ req, res, session }) => {
     // const {currentEvent} = session as {currentEvent: YearEvent}
-
+    console.log('startGameHandler')
     const keyset = req.i18n(dictionary)
     startNewGame(session)
 
@@ -91,6 +91,7 @@ export const userAnswerHandler: SaluteHandler = async ({ req, res, session }) =>
         if (attempt === 4){
             responseText = currentEvent?.description as string
             percentage = await getPercentage(currentEvent?.question as string, year, currentEvent?.year as number)
+            console.log(percentage)
             startNewGame(session)
             responseText = responseText +
             '\n' +
@@ -128,9 +129,9 @@ export const helpHandler: SaluteHandler = ({ req, res }) => {
     res.appendSuggestions(['Продолжить'])
 }
 
-export const continueHandler: SaluteHandler = ({ req, res, history }, dispatch) => {
+export const continueHandler: SaluteHandler = ({ req, res }, dispatch) => {
     const keyset = req.i18n(dictionary)
-    console.log('history', history)
+
     if (currentEvent) {
         const responseText = keyset('Вопрос', {
             question: currentEvent?.question
@@ -138,6 +139,6 @@ export const continueHandler: SaluteHandler = ({ req, res, history }, dispatch) 
         res.setPronounceText(responseText)
         res.appendBubble(responseText)
     } else {
-        dispatch && dispatch(['startNewGame'])
+        dispatch && dispatch(['StartGame'])
     }
 }
