@@ -24,7 +24,7 @@ function randomInteger(min: number, max: number) {
 
 export async function getPercentage(question: string, userYear: number, realYear: number) {
     const usersYear = await getUsersYear(question, userYear)
-    if (usersYear.length < 4) return randomInteger(30, 70)
+    if (usersYear.length < 4 || !usersYear) return randomInteger(30, 70)
     const userYearDifference = Math.abs(realYear - userYear)
     const otherUsersYearDifference = usersYear.map(item => Math.abs(item - realYear))
     const badOtherUsersYearDifference = otherUsersYearDifference.filter(item => item > userYearDifference)
