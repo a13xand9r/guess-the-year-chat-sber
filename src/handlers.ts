@@ -76,7 +76,6 @@ export const userAnswerHandler: SaluteHandler = async ({ req, res, session }) =>
     let responseText: string
     let percentage: number = 50
 
-    console.log('currentEvent', currentEvent)
     const compareResult = compareYear(currentEvent?.year as number, year)
     if (compareResult !== Difference.good) {
         responseText = keyset(compareResult)
@@ -104,7 +103,8 @@ export const userAnswerHandler: SaluteHandler = async ({ req, res, session }) =>
             }) +
             '\n\n' +
             keyset('Следующий вопрос', {
-                question: currentEvent?.question
+                //@ts-ignore
+                question: session.currentEvent?.question
             })
         }
     } else {
