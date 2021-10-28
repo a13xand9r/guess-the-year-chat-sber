@@ -12,7 +12,7 @@ export function getUniqEvent(oldQuestions: string[]) {
     let foundQuestion = oldQuestions.find(item => item === event.question)
     let count = 0
 
-    while (foundQuestion && count < yearData.length * 5) {
+    while (foundQuestion && count < yearData.length * 4) {
         count++
         event = getRandomFromArray(yearData)
         foundQuestion = oldQuestions.find(item => item === event.question)
