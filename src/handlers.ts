@@ -79,18 +79,18 @@ export const userAnswerHandler: SaluteHandler = async ({ req, res, session }) =>
     if (compareResult !== Difference.good) {
         responseText = keyset(compareResult)
         session.attempt = attempt + 1
-        if (attempt === 2) {
+        if (session.attempt === 2) {
             responseText = responseText + ' ' + keyset('Еще ответ')
             session.firstAnswerYearDifference = getYearDifference(currentEvent?.year as number, year)
             getPercentage(currentEvent?.question as string, year, currentEvent?.year as number)
         }
-        if (attempt === 3){
+        if (session.attempt === 3){
             const secondAnswerYearDifference = getYearDifference(currentEvent?.year as number, year)
             let accurateAnswer =secondAnswerYearDifference === firstAnswerYearDifference ? '' : secondAnswerYearDifference > firstAnswerYearDifference ? keyset('Первый точнее') : keyset('Второй точнее')
             responseText = `${responseText} ${accurateAnswer} ${keyset('Последний ответ')}`
             getPercentage(currentEvent?.question as string, year, currentEvent?.year as number)
         }
-        if (attempt === 4){
+        if (session.attempt === 4){
             responseText = currentEvent?.description as string
             percentage = await getPercentage(currentEvent?.question as string, year, currentEvent?.year as number)
             console.log(percentage)
