@@ -49,6 +49,7 @@ export const closeApp = (message: NLPResponse) => {
 }
 
 export function compareYear(realYear: number, userYear: number) {
+    console.log(realYear, userYear)
     const yearDifference = realYear - userYear
     if (yearDifference > 0) {
         if (yearDifference < 20) return Difference.littleLater
