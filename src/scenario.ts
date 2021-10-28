@@ -12,8 +12,9 @@ import {
     SaluteRequest
 } from '@salutejs/scenario'
 import { SaluteMemoryStorage } from '@salutejs/storage-adapter-memory'
-import { continueHandler, currentEvent, helpHandler, noMatchHandler, runAppHandler, startGameHandler, userAnswerHandler } from './handlers'
+import { continueHandler, helpHandler, noMatchHandler, runAppHandler, startGameHandler, userAnswerHandler } from './handlers'
 import model from './intents.json'
+import { closeApp } from './utils/utils'
 
 const storage = new SaluteMemoryStorage()
 const intents = createIntents(model.intents)
@@ -21,8 +22,17 @@ const { intent } = createMatchers<SaluteRequest, typeof intents>()
 
 const userScenario = createUserScenario({
     StartGame: {
-        match: (req) => intent('/Начать игру', {confidence: 0.2})(req) && !currentEvent,
-        handle: startGameHandler
+        match: (req) => intent('/Начать игру', {confidence: 0.2})(req),
+        handle: startGameHandler,
+        children: {
+            No: {
+                match: (req) => intent('/Нет', {confidence: 0.2})(req),
+                handle: ({res}) => {
+                    res.setPronounceText('Тогда до скорых встреч')
+                    closeApp(res.message)
+                }
+            },
+        }
     },
     UserAnswer: {
         match: (req) => req.message.normalized_text.includes('NUM_TOKEN'),
@@ -35,13 +45,7 @@ const userScenario = createUserScenario({
     Continue: {
         match: intent('/Продолжить', {confidence: 0.2}),
         handle: continueHandler
-    },
-    No: {
-        match: (req) => intent('/Нет', {confidence: 0.2})(req) && !currentEvent,
-        handle: ({res}) => {
-            res.setPronounceText('Ну и ладно')
-        }
-    },
+    }
 })
 
 const systemScenario = createSystemScenario({
@@ -59,7 +63,7 @@ const scenarioWalker = createScenarioWalker({
 export const handleNlpRequest = async (request: NLPRequest): Promise<NLPResponse> => {
     const req = createSaluteRequest(request)
     const res = createSaluteResponse(request)
-    const sessionId = request.uuid.userId
+    const sessionId = request.uuid.sub
     const session = await storage.resolve(sessionId)
     await scenarioWalker({ req, res, session })
 

@@ -1,6 +1,7 @@
 import { yearData } from './yearEventsData';
 import { Difference } from './../types';
 import { getUsersYear } from '../dataBase';
+import { NLPResponse } from '@salutejs/scenario';
 
 export function getRandomFromArray<T>(arr: T[]): T {
     return arr[Math.floor(arr.length * Math.random())]
@@ -9,8 +10,10 @@ export function getRandomFromArray<T>(arr: T[]): T {
 export function getUniqEvent(oldQuestions: string[]) {
     let event = getRandomFromArray(yearData)
     let foundQuestion = oldQuestions.find(item => item === event.question)
+    let count = 0
 
-    while (foundQuestion) {
+    while (foundQuestion && count < yearData.length * 5) {
+        count++
         event = getRandomFromArray(yearData)
         foundQuestion = oldQuestions.find(item => item === event.question)
     }
@@ -39,6 +42,10 @@ export function getYear(human_normalized_text: string) {
         }
     }
     return 0
+}
+export const closeApp = (message: NLPResponse) => {
+    if (message.messageName === 'ANSWER_TO_USER')
+        message.payload.items.push({ command: { type: 'close_app'} })
 }
 
 export function compareYear(realYear: number, userYear: number) {

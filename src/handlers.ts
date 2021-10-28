@@ -4,22 +4,22 @@ import * as dictionary from './system.i18n'
 import { compareYear, getPercentage, getUniqEvent, getYear, getYearDifference } from './utils/utils'
 import { start } from './dataBase'
 
-let attempt = 0
-let oldQuestions: string[] = []
-export let currentEvent: YearEvent | null
-let firstAnswerYearDifference: number
+// let attempt = 0
+// let oldQuestions: string[] = []
+// export let currentEvent: YearEvent | null
+// let firstAnswerYearDifference: number
 
-export const runAppHandler: SaluteHandler = ({ req, res }) => {
+export const runAppHandler: SaluteHandler = ({ req, res, session }) => {
     const keyset = req.i18n(dictionary)
     const helloText = keyset('Привет')
     res.setPronounceText(helloText)
     res.appendBubble(helloText)
     res.appendSuggestions(['Играть', 'Помощь'])
-    console.log('oldQuestions', oldQuestions)
+    console.log('oldQuestions', session.oldQuestions)
 
-    attempt = 0
-    oldQuestions = []
-    currentEvent = null
+    session.attempt = 0
+    session.currentEvent = null
+    if (!session.oldQuestions) session.oldQuestions = []
 
     start()
     // console.log(oldQuestions)
@@ -39,11 +39,11 @@ export const noMatchHandler: SaluteHandler = ({ req, res, session }) => {
 
 
 const startNewGame = (session: any) => {
-    const event = getUniqEvent(oldQuestions)
+    const event = getUniqEvent(session.oldQuestions)
 
-    currentEvent = event
-    attempt = 1
-    oldQuestions.push(event.question)
+    session.currentEvent = event
+    session.attempt = 1
+    session.oldQuestions.push(event.question)
 }
 
 export const startGameHandler: SaluteHandler = ({ req, res, session }) => {
@@ -53,20 +53,22 @@ export const startGameHandler: SaluteHandler = ({ req, res, session }) => {
     startNewGame(session)
 
     res.setPronounceText(keyset('Первый вопрос', {
-        question: currentEvent?.question
+        //@ts-ignore
+        question: session.currentEvent?.question
     }))
     res.appendBubble(keyset('Первый вопрос', {
-        question: currentEvent?.question
+        //@ts-ignore
+        question: session.currentEvent?.question
     }))
     res.setAutoListening(true)
 }
 
 export const userAnswerHandler: SaluteHandler = async ({ req, res, session }) => {
-    // const {currentEvent} = session as {
-    //     currentEvent: YearEvent
-    //     attempt: number
-    //     firstAnswerYearDifference: number
-    // }
+    const {currentEvent, attempt, firstAnswerYearDifference} = session as {
+        currentEvent: YearEvent | undefined
+        attempt: number
+        firstAnswerYearDifference: number
+    }
 
     const keyset = req.i18n(dictionary)
     const year = getYear(req.message.human_normalized_text)
@@ -76,10 +78,10 @@ export const userAnswerHandler: SaluteHandler = async ({ req, res, session }) =>
     const compareResult = compareYear(currentEvent?.year as number, year)
     if (compareResult !== Difference.good) {
         responseText = keyset(compareResult)
-        attempt += 1
+        session.attempt = attempt + 1
         if (attempt === 2) {
             responseText = responseText + ' ' + keyset('Еще ответ')
-            firstAnswerYearDifference = getYearDifference(currentEvent?.year as number, year)
+            session.firstAnswerYearDifference = getYearDifference(currentEvent?.year as number, year)
             getPercentage(currentEvent?.question as string, year, currentEvent?.year as number)
         }
         if (attempt === 3){
@@ -129,8 +131,9 @@ export const helpHandler: SaluteHandler = ({ req, res }) => {
     res.appendSuggestions(['Продолжить'])
 }
 
-export const continueHandler: SaluteHandler = ({ req, res }, dispatch) => {
+export const continueHandler: SaluteHandler = ({ req, res, session }, dispatch) => {
     const keyset = req.i18n(dictionary)
+    const {currentEvent} = session as {currentEvent: YearEvent | undefined}
 
     if (currentEvent) {
         const responseText = keyset('Вопрос', {
