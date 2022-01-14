@@ -36,6 +36,7 @@ export const noMatchHandler: SaluteHandler = ({ req, res, session }) => {
     }
     res.setPronounceText(errorText)
     res.appendBubble(errorText)
+    res.appendSuggestions(['Выйти'])
 }
 
 
@@ -62,6 +63,7 @@ export const startGameHandler: SaluteHandler = ({ req, res, session }) => {
         question: session.currentEvent?.question
     }))
     res.setAutoListening(true)
+    res.appendSuggestions(['Выйти'])
 }
 
 export const userAnswerHandler: SaluteHandler = async ({ req, res, session }) => {
@@ -131,7 +133,7 @@ export const helpHandler: SaluteHandler = ({ req, res }) => {
     const responseText = keyset('Помощь')
     res.setPronounceText(responseText)
     res.appendBubble(responseText)
-    res.appendSuggestions(['Продолжить'])
+    res.appendSuggestions(['Продолжить', 'Выйти'])
 }
 
 export const continueHandler: SaluteHandler = ({ req, res, session }, dispatch) => {
