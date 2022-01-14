@@ -63,7 +63,7 @@ export const startGameHandler: SaluteHandler = ({ req, res, session }) => {
         question: session.currentEvent?.question
     }))
     res.setAutoListening(true)
-    res.appendSuggestions(['Выйти'])
+    res.appendSuggestions(['Помощь', 'Выйти'])
 }
 
 export const userAnswerHandler: SaluteHandler = async ({ req, res, session }) => {

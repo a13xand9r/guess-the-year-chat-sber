@@ -54,7 +54,7 @@ const systemScenario = createSystemScenario({
 })
 
 const scenarioWalker = createScenarioWalker({
-    recognizer: new SmartAppBrainRecognizer('c4ac45a8-bc54-4779-bf57-4eb69a387b5b'),
+    recognizer: new SmartAppBrainRecognizer('dcedf81f-690b-4c8a-b947-541feea36c13'),
     intents,
     systemScenario,
     userScenario
